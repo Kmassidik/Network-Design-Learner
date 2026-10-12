@@ -1,0 +1,57 @@
+.context-menu {
+  position: absolute;
+  z-index: 30;
+  min-width: 196px;
+  max-width: 280px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  box-shadow: var(--shadow-2);
+}
+
+.context-section + .context-section {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+
+.context-title {
+  padding: 4px 8px 2px;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.context-item {
+  display: block;
+  width: 100%;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--motion) ease;
+}
+
+.context-item:hover,
+.context-item:focus-visible {
+  background: var(--panel-2);
+}
+
+/* The option already in force, marked rather than removed. */
+.context-item[data-current='true'] {
+  color: var(--accent);
+}
+
+.context-item[data-current='true']::before {
+  content: '\2022';
+  margin-right: 6px;
+}

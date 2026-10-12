@@ -1,0 +1,222 @@
+/*
+ * The shell: the columns, the top bar, the stage and how they hold together.
+ * The panels themselves, the palette, the inspector fields and readouts, the
+ * playback bar and the packet log live in panels.css.
+ */
+
+@import './panels.css';
+
+/*
+ * Columns are separated by hairlines rather than each being its own card, so
+ * the eye has one frame of reference and the canvas is the only surface that
+ * looks like a surface. Prose lives behind disclosures.
+ */
+
+.app {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.brand h1 {
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.brand-sub {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-field .select {
+  width: auto;
+}
+
+/* Three columns: what you can place, the board, what you can change */
+.body {
+  display: grid;
+  grid-template-columns: 196px minmax(0, 1fr) 300px;
+  /* Said out loud, rather than depending on the longest rail to prop the row
+     up: with the rails hidden there is nothing left to do it. */
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.rail-left {
+  padding: 4px 14px 24px;
+  border-right: 1px solid var(--line);
+}
+
+.rail-right {
+  padding: 4px 14px 24px;
+  border-left: 1px solid var(--line);
+}
+
+.stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 8px;
+  min-height: 0;
+  padding: 12px;
+}
+
+.stage-canvas {
+  position: relative;
+  min-height: 0;
+  /* A grid so the canvas inside it stretches to the whole row: a plain block
+     would let the canvas collapse to the height of its own content. */
+  display: grid;
+}
+
+/*
+ * The two controls that survive hiding the panels: running the scenario and
+ * getting the panels back. They sit on the canvas so they are always in the
+ * same place, in either mode.
+ */
+.stage-tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  display: flex;
+  gap: 6px;
+}
+
+/* The newest line of the run, on the canvas, while the panels are hidden. */
+.stage-caption {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 5;
+  padding: 7px 10px;
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  box-shadow: var(--shadow-1);
+  font-size: 12.5px;
+}
+
+.stage-caption[data-tone='drop'] {
+  border-left-color: var(--bad);
+  color: var(--bad);
+}
+
+.stage-caption[data-tone='lookup'] {
+  border-left-color: var(--k-arp);
+}
+
+.stage-caption[data-tone='ping'] {
+  border-left-color: var(--k-ping);
+}
+
+.stage-caption[data-tone='learn'] {
+  border-left-color: var(--line-strong);
+}
+
+/* Focus: everything that is not the board goes away. */
+.app[data-focus='true'] {
+  /* The app grid has to lose its rows as well. Hiding the header and the log
+     with display:none takes them out of the grid, and the body would otherwise
+     reflow up into the header's row, which is sized to a header that is no
+     longer there. */
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.app[data-focus='true'] .topbar,
+.app[data-focus='true'] .rail,
+.app[data-focus='true'] .logbar {
+  display: none;
+}
+
+.app[data-focus='true'] .body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.app[data-focus='true'] .stage {
+  padding: 8px;
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.rail-title {
+  padding: 10px 0 2px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.rail-subtitle {
+  margin-top: 10px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.muted {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+/* Below this the three columns stop fitting side by side. */
+@media (max-width: 1100px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(360px, 1fr) auto;
+  }
+
+  .rail-left,
+  .rail-right {
+    padding-bottom: 12px;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .rail {
+    overflow: visible;
+  }
+}

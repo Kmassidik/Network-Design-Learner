@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+*.tsbuildinfo
+
+# Upstream trees kept on this machine for reading. Never built, never shipped,
+# and not something this repository carries in its history.
+reference/

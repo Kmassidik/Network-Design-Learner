@@ -1,0 +1,384 @@
+/*
+ * The panels and what sits under the board: the correction step, the palette,
+ * the inspector fields and readouts, the playback bar and the packet log.
+ * Imported by App.css, so the shell and these rules load together.
+ */
+
+/* The correction step: what stopped the packet, why, and what to change. */
+.correction {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--warn);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+
+.correction-headline {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.correction-detail,
+.correction-fix {
+  font-size: 12.5px;
+}
+
+.correction-fix {
+  color: var(--text-muted);
+}
+
+.correction-link {
+  color: var(--accent);
+  font-size: 12px;
+}
+
+/* Palette */
+.palette-group {
+  margin-top: 6px;
+}
+
+.palette-group-title {
+  padding: 4px 0;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.palette-list {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.palette-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--motion) ease;
+}
+
+.palette-item:hover {
+  background: var(--panel-2);
+}
+
+.palette-symbol {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.palette-label {
+  flex: 1;
+}
+
+/* One interface of a device, in the inspector. */
+.port-block + .port-block {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.port-block .rail-subtitle {
+  margin-top: 0;
+}
+
+/* Forms */
+.field {
+  display: block;
+  margin-top: 8px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.unit,
+.prefix-value {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.field-hint {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+fieldset.field {
+  margin: 8px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+fieldset.field legend {
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 12.5px;
+}
+
+.choice input {
+  accent-color: var(--accent);
+}
+
+.scenario-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.notice {
+  margin-top: 8px;
+  padding: 6px 9px;
+  border-left: 2px solid var(--bad);
+  color: var(--bad);
+  font-size: 12px;
+}
+
+/* Readouts */
+.readout {
+  display: grid;
+  gap: 3px;
+  margin: 4px 0 0;
+}
+
+.readout-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+}
+
+.readout-row dt {
+  color: var(--text-muted);
+}
+
+.readout-row dd {
+  margin: 0;
+  text-align: right;
+}
+
+.arp {
+  width: 100%;
+  margin: 4px 0;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.arp th,
+.arp td {
+  padding: 3px 4px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.arp th {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Playback. A bare bar under the canvas, not another panel. */
+.timeline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 2px;
+  border-top: 1px solid var(--line);
+}
+
+.timeline-controls {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-scrub {
+  flex: 1;
+  min-width: 100px;
+  accent-color: var(--accent);
+}
+
+.timeline-stats {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+}
+
+.stat dt {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.stat dd {
+  margin: 0;
+  font-size: 13px;
+}
+
+.stat-wide dd {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* Packet log. Three lines while it is closed, the whole run when it is open. */
+.logbar {
+  border-top: 1px solid var(--line);
+}
+
+.logbar-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.logbar-head:hover .logbar-title {
+  color: var(--accent);
+}
+
+.logbar-title {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color var(--motion) ease;
+}
+
+.logbar-latest {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12.5px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logbar-count,
+.logbar-chevron {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+/*
+ * A flex column, not a grid: a grid with a fixed height sizes its rows to fit
+ * the container, so the content can never be taller than the box and there is
+ * nothing to scroll. Each line is told not to shrink for the same reason.
+ */
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 0 16px 8px;
+  list-style: none;
+}
+
+/*
+ * Open, the log is a terminal: a fixed viewport that scrolls, in the fixed
+ * width face, so a reader can scroll back through a run without the newest
+ * line yanking the view down. Autoscroll only happens while the view is
+ * already at the bottom.
+ */
+.logbar[data-open='true'] .log {
+  height: 200px;
+  overflow-y: auto;
+  padding-top: 2px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.logbar[data-open='true'] .log:focus-visible {
+  outline-offset: -2px;
+}
+
+.log-line {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  padding: 3px 8px;
+  border-left: 2px solid transparent;
+  border-radius: 3px;
+  /* Said again because a flex column shrinks its children by default, which
+     would squash a long run into the height of the viewport. */
+  flex: 0 0 auto;
+}
+
+.log-line[data-tone='lookup'] {
+  border-left-color: var(--k-arp);
+}
+
+.log-line[data-tone='ping'] {
+  border-left-color: var(--k-ping);
+}
+
+.log-line[data-tone='learn'] {
+  border-left-color: var(--line-strong);
+}
+
+.log-line[data-tone='drop'] {
+  border-left-color: var(--bad);
+  color: var(--bad);
+}
+
+.log-line[data-tone='result'] {
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.log-time {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  text-align: right;
+}
+
+.log-text {
+  font-size: 13px;
+}
+
+.log-empty {
+  padding: 0 16px 10px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+

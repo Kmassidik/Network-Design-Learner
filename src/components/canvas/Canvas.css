@@ -1,0 +1,287 @@
+.cv {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden;
+}
+
+/*
+ * The surface owns every pointer handler, and nothing inside it may swallow a
+ * gesture. Touch gets no default handling: panning and dragging are ours.
+ */
+.cv-surface {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  background: var(--bg);
+  cursor: default;
+}
+
+.cv-surface[data-panning='true'] {
+  cursor: grabbing;
+}
+
+.cv-surface[data-wire='on'] {
+  cursor: crosshair;
+}
+
+/* Space is held, so a drag will pan rather than pick anything up. */
+.cv-surface[data-pan='ready'] {
+  cursor: grab;
+}
+
+.cv-backdrop {
+  cursor: default;
+}
+
+.cv-grid-line {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+/* Cables */
+.cv-link-line {
+  stroke: var(--line-strong);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.cv-link-hit {
+  stroke: transparent;
+  stroke-width: 20;
+  cursor: pointer;
+}
+
+.cv-link.is-selected .cv-link-line {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+/* The box swept over the board to pick several devices at once. */
+.cv-marquee {
+  fill: var(--accent-soft);
+  fill-opacity: 0.3;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  pointer-events: none;
+}
+
+/* The line a cable would take, while it is being drawn. */
+.cv-rubber {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+  pointer-events: none;
+}
+
+/* A cable under the pointer, so the board answers before it is clicked. */
+.cv-link.is-hovered .cv-link-line {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+/* Devices the selected one can reach without a router: the mask, made visible. */
+.cv-node.is-related .cv-halo {
+  opacity: 0.35;
+  stroke-dasharray: 6 5;
+}
+
+/* A device under the pointer, and the one a cable is being drawn from. */
+.cv-node.is-hovered .cv-halo {
+  opacity: 0.22;
+  stroke-dasharray: none;
+}
+
+.cv-node.is-hovered .cv-box {
+  stroke-width: 2.5;
+}
+
+.cv-node.is-wiring .cv-halo {
+  opacity: 0.6;
+}
+
+.cv-node.is-wiring .cv-box {
+  stroke-width: 3;
+}
+
+/* A cable that passes nothing stays red whichever state it is in. */
+.cv-link[data-broken='true'] .cv-link-line {
+  stroke: var(--bad);
+  stroke-dasharray: 5 5;
+}
+
+.cv-link[data-broken='true'] .cv-link-label {
+  fill: var(--bad);
+}
+
+.cv-link[data-broken='true'].is-selected .cv-link-line,
+.cv-link[data-broken='true'].is-hovered .cv-link-line {
+  stroke: var(--bad);
+}
+
+.cv-link-label {
+  fill: var(--text-muted);
+  font: 11px var(--mono);
+  text-anchor: middle;
+  /* A halo in the page colour keeps the number readable where it crosses the cable. */
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
+/* Devices */
+.cv-node {
+  cursor: grab;
+}
+
+/*
+ * The one place a device colour is chosen. Written as `node of this kind` so it
+ * cannot lose to `.cv-node` on source order, and read through
+ * `var(--k, fallback)` everywhere else.
+ */
+.cv-node[data-kind='pc'] {
+  --k: var(--k-pc);
+}
+
+.cv-node[data-kind='hub'] {
+  --k: var(--k-hub);
+}
+
+.cv-node[data-kind='switch'] {
+  --k: var(--k-switch);
+}
+
+.cv-node[data-kind='router'] {
+  --k: var(--k-router);
+}
+
+.cv-node[data-kind='firewall'] {
+  --k: var(--k-firewall);
+}
+
+.cv-node[data-kind='cloud'] {
+  --k: var(--k-cloud);
+}
+
+/*
+ * Third-party artwork, so it carries its own colours. It is placed by the
+ * browser inside the box it is given and never stretched out of shape.
+ */
+.cv-picture {
+  pointer-events: none;
+}
+
+/* The interface a cable is plugged into, printed at that end of the cable. */
+.cv-port {
+  fill: var(--text-muted);
+  font: 11px var(--mono);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  pointer-events: none;
+}
+
+.cv-box {
+  fill: var(--panel);
+  stroke: var(--k, var(--line-strong));
+  stroke-width: 1.5;
+}
+
+.cv-halo {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+.cv-node.is-selected .cv-halo {
+  opacity: 0.45;
+}
+
+.cv-node.is-selected .cv-box {
+  stroke-width: 2.5;
+}
+
+.cv-node.is-selected {
+  cursor: grabbing;
+}
+
+.cv-label {
+  fill: var(--text);
+  font: 600 16px var(--sans);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.cv-addr {
+  fill: var(--text-muted);
+  font: 14px var(--mono);
+  font-variant-numeric: tabular-nums;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* Frames in flight. Placed by the playback clock, not by React. */
+.cv-packet {
+  fill: var(--k-ping);
+  pointer-events: none;
+}
+
+.cv-packet[data-frame='arp-request'],
+.cv-packet[data-frame='arp-reply'] {
+  fill: var(--k-arp);
+}
+
+/* Interface floating over the canvas. Every piece of it carries data-chrome. */
+.cv-tools {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cv-tool {
+  min-width: 28px;
+  height: 26px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background var(--motion) ease,
+    color var(--motion) ease;
+}
+
+.cv-tool:hover {
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.cv-zoom {
+  min-width: 40px;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.cv-hint {
+  position: absolute;
+  left: 10px;
+  bottom: 12px;
+  max-width: 320px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
